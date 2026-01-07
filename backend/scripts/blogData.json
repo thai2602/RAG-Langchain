@@ -1,0 +1,32 @@
+[
+  {
+    "category": "technology",
+    "title": "Giới thiệu về Machine Learning và AI",
+    "content": "Machine Learning là một nhánh của trí tuệ nhân tạo cho phép máy tính học từ dữ liệu mà không cần lập trình cụ thể. Các thuật toán ML có thể phát hiện patterns trong dữ liệu và đưa ra dự đoán. Có 3 loại chính: supervised learning, unsupervised learning, và reinforcement learning. Ứng dụng của ML rất đa dạng, từ nhận diện hình ảnh, xử lý ngôn ngữ tự nhiên, đến xe tự lái và chẩn đoán y tế.",
+    "tags": ["AI", "Machine Learning", "Technology"]
+  },
+  {
+    "category": "technology",
+    "title": "Lập trình Python cho người mới bắt đầu",
+    "content": "Python là ngôn ngữ lập trình dễ học nhất cho người mới bắt đầu. Cú pháp đơn giản, gần với ngôn ngữ tự nhiên. Python được ứng dụng rộng rãi trong web development, data science, machine learning, automation. Để bắt đầu, bạn cần hiểu về biến, vòng lặp, hàm, và OOP. Python có cộng đồng lớn và tài liệu phong phú.",
+    "tags": ["Python", "Programming", "Tutorial"]
+  },
+  {
+    "category": "technology",
+    "title": "React vs Vue: Framework nào phù hợp với bạn?",
+    "content": "React và Vue đều là những framework JavaScript phổ biến. React được phát triển bởi Facebook, có cộng đồng lớn và nhiều thư viện hỗ trợ. Vue được tạo bởi Evan You, dễ học hơn và có documentation tốt. React sử dụng JSX, Vue sử dụng template. Cả hai đều có virtual DOM và component-based architecture. Chọn React nếu bạn cần ecosystem lớn, chọn Vue nếu bạn muốn học nhanh.",
+    "tags": ["React", "Vue", "JavaScript", "Frontend"]
+  },
+  {
+    "category": "technology",
+    "title": "Node.js và Express: Xây dựng REST API",
+    "content": "Node.js cho phép chạy JavaScript trên server. Express là framework minimal và linh hoạt cho Node.js. Để xây dựng REST API, bạn cần hiểu về HTTP methods (GET, POST, PUT, DELETE), routing, middleware, và database integration. Express giúp xử lý requests, responses, và error handling dễ dàng. Kết hợp với MongoDB tạo thành MERN stack mạnh mẽ.",
+    "tags": ["Node.js", "Express", "Backend", "API"]
+  },
+  {
+    "category": "technology",
+    "title": "Docker: Containerization cho developers",
+    "content": "Docker là platform để develop, ship và run applications trong containers. Container giống như một máy ảo nhẹ, chứa tất cả dependencies cần thiết. Docker giúp đảm bảo ứng dụng chạy giống nhau trên mọi môi trường. Dockerfile định nghĩa cách build image, docker-compose quản lý multi-container applications. Docker rất hữu ích cho microservices và CI/CD.",
+    "tags": ["Docker", "DevOps", "Containers"]
+  }
+]

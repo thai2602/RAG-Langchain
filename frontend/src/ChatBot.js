@@ -29,18 +29,18 @@ function ChatBot({ isOpen, onToggle }) {
 
       switch (chatMode) {
         case 'smart-search':
-          res = await axios.post(`${API_URL}/chat/smart-search`, { query });
+          res = await axios.post(`${API_URL}/ai/smart-search`, { query });
           botResponse = res.data.answer;
           foundBlogs = res.data.blogs || [];
           break;
 
         case 'search':
-          res = await axios.post(`${API_URL}/chat/search`, { query });
+          res = await axios.post(`${API_URL}/ai/chat`, { query });
           botResponse = res.data.answer;
           break;
 
         case 'generate':
-          res = await axios.post(`${API_URL}/chat/generate`, { 
+          res = await axios.post(`${API_URL}/ai/generate`, { 
             topic: query,
             style: 'chuyên nghiệp'
           });

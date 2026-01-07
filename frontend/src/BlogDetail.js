@@ -24,8 +24,8 @@ function BlogDetail({ blogId, onBack, onNavigate }) {
       setBlog(res.data.blog);
       
       // Lấy gợi ý blogs tương tự
-      const recRes = await axios.post(`${API_URL}/chat/recommend`, { blog_id: blogId });
-      setRecommendations(recRes.data.recommendations || []);
+      const recRes = await axios.get(`${API_URL}/blogs/${blogId}/related`);
+      setRecommendations(recRes.data.blogs || []);
     } catch (error) {
       console.error('Lỗi khi tải blog:', error);
     } finally {
@@ -37,7 +37,7 @@ function BlogDetail({ blogId, onBack, onNavigate }) {
     try {
       setShowAnalysis(true);
       if (!analysis) {
-        const res = await axios.post(`${API_URL}/chat/analyze`, { blog_id: blogId });
+        const res = await axios.post(`${API_URL}/ai/analyze`, { blog_id: blogId });
         setAnalysis(res.data.analysis);
       }
     } catch (error) {
@@ -49,7 +49,7 @@ function BlogDetail({ blogId, onBack, onNavigate }) {
     try {
       setShowSummary(true);
       if (!summary) {
-        const res = await axios.post(`${API_URL}/chat/summarize`, { blog_id: blogId });
+        const res = await axios.post(`${API_URL}/ai/summarize`, { blog_id: blogId });
         setSummary(res.data.summary);
       }
     } catch (error) {
@@ -75,10 +75,12 @@ function BlogDetail({ blogId, onBack, onNavigate }) {
         <header className="blog-header">
           <h1>{blog.title}</h1>
           <div className="blog-meta">
-            <span>👤 {blog.author}</span>
+            <span>👤 {blog.author?.fullName || blog.author?.username}</span>
             <span>📁 {blog.category}</span>
             <span>👁️ {blog.views} lượt xem</span>
-            <span>📅 {new Date(blog.created_at).toLocaleDateString('vi-VN')}</span>
+            <span>❤️ {blog.likes} likes</span>
+            <span>📅 {new Date(blog.createdAt).toLocaleDateString('vi-VN')}</span>
+            <span>⏱️ {blog.readTime} phút đọc</span>
           </div>
         </header>
 

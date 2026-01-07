@@ -28,11 +28,10 @@ function App() {
 
   const handleSeedData = async () => {
     try {
-      await axios.post(`${API_URL}/seed`);
+      alert('Dữ liệu đã được tạo sẵn 50 blogs! Refresh trang để xem.');
       await fetchBlogs();
-      alert('Đã tạo dữ liệu mẫu thành công!');
     } catch (error) {
-      alert('Lỗi khi tạo dữ liệu mẫu');
+      alert('Lỗi khi tải dữ liệu');
     }
   };
 
@@ -99,10 +98,10 @@ function App() {
               </div>
               <h2 className="blog-title">{blog.title}</h2>
               <p className="blog-excerpt">
-                {blog.content.substring(0, 150)}...
+                {blog.excerpt || blog.content.substring(0, 150) + '...'}
               </p>
               <div className="blog-card-footer">
-                <span className="blog-author">👤 {blog.author}</span>
+                <span className="blog-author">👤 {blog.author?.fullName || blog.author?.username}</span>
                 <span className="read-more">Đọc thêm →</span>
               </div>
             </article>

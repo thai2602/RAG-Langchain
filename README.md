@@ -1,248 +1,263 @@
-# 🤖 RAG Blog Chatbot với LangChain
+# 🚀 RAG Blog với AI Chatbot
 
-Hệ thống chatbot AI sử dụng RAG (Retrieval-Augmented Generation) để tìm kiếm, tóm tắt và phân tích blogs.
+Trang web blog hiện đại với AI Chatbot tích hợp, sử dụng RAG (Retrieval-Augmented Generation) để tìm kiếm và tương tác thông minh.
 
-## ✨ Tính năng
+## 🎯 Tính năng
 
-### 🔍 Tìm kiếm thông minh
-- Tìm kiếm nội dung blogs bằng ngôn ngữ tự nhiên
-- Sử dụng vector embeddings và FAISS để tìm kiếm semantic
+### Frontend (React)
+- ✅ Giao diện blog hiện đại với grid layout
+- ✅ Filter blogs theo category
+- ✅ Blog detail page với đầy đủ thông tin
+- ✅ AI Chatbot floating button
+- ✅ Responsive design cho mọi thiết bị
+- ✅ Smooth animations và transitions
 
-### 📝 Tóm tắt nội dung
-- Tóm tắt một blog cụ thể hoặc nhiều blogs
-- Trích xuất ý chính một cách ngắn gọn
+### Backend (Node.js + Express)
+- ✅ RESTful API với Express
+- ✅ MongoDB database với Mongoose ODM
+- ✅ User và Blog models với relationships
+- ✅ AI integration với Groq API
+- ✅ Smart search với RAG
+- ✅ Blog summarization và analysis
+- ✅ Content generation
 
-### 📊 Phân tích blog
-- Phân tích sentiment (tích cực/tiêu cực/trung lập)
-- Xác định chủ đề chính và từ khóa
-- Đánh giá chất lượng nội dung
+### AI Features
+- 🎯 **Smart Search**: Tìm kiếm thông minh với AI
+- 📝 **Summarize**: Tóm tắt nội dung blog
+- 📊 **Analyze**: Phân tích sentiment và chủ đề
+- ✨ **Generate**: Tạo nội dung blog mới
+- 💡 **Recommendations**: Gợi ý blogs liên quan
 
-### 💡 Gợi ý thông minh
-- Đề xuất các blogs tương tự dựa trên nội dung
-- Sử dụng similarity search
-
-### ✨ Tạo nội dung
-- Tự động tạo nội dung blog mới từ chủ đề
-- Tùy chỉnh phong cách viết
-
-## 🛠️ Công nghệ sử dụng
-
-### Backend
-- **Flask**: Web framework
-- **MongoDB**: Database lưu trữ blogs và users
-- **LangChain**: Framework cho RAG
-- **Groq API**: LLM (Llama 3.3 70B)
-- **FAISS**: Vector store cho similarity search
-- **HuggingFace**: Sentence embeddings (multilingual)
+## 🏗️ Tech Stack
 
 ### Frontend
-- **React**: UI framework
-- **Axios**: HTTP client
+- React 18
+- Axios
+- CSS3 với animations
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- Groq AI API
+- LangChain
 
 ## 📦 Cài đặt
 
-### 1. Cài đặt MongoDB
+### Prerequisites
+- Node.js >= 16
+- MongoDB
+- Groq API Key
 
-**Windows:**
+### 1. Clone repository
 ```bash
-# Download từ: https://www.mongodb.com/try/download/community
-# Hoặc dùng Chocolatey:
-choco install mongodb
+git clone https://github.com/thai2602/RAG-Langchain.git
+cd RAG-Langchain
 ```
 
-**Khởi động MongoDB:**
+### 2. Setup Backend
 ```bash
-mongod --dbpath C:\data\db
-```
-
-### 2. Backend Setup
-
-```bash
-cd RAG-Langchain/backend
-
-# Tạo virtual environment
-python -m venv venv
-venv\Scripts\activate
-
-# Cài đặt dependencies
-pip install -r requirements.txt
-
-# Tạo file .env
-copy .env.example .env
-```
-
-**Cấu hình .env:**
-```
-GROQ_API_KEY=your_groq_api_key_here
-MONGO_URI=mongodb://localhost:27017/
-```
-
-**Lấy Groq API Key:**
-1. Truy cập: https://console.groq.com
-2. Đăng ký tài khoản miễn phí
-3. Tạo API key mới
-4. Copy vào file .env
-
-### 3. Frontend Setup
-
-```bash
-cd RAG-Langchain/frontend
-
-# Cài đặt dependencies
+cd backend
 npm install
 ```
 
-## 🚀 Chạy ứng dụng
-
-### Terminal 1 - Backend:
-```bash
-cd RAG-Langchain/backend
-venv\Scripts\activate
-python app.py
+Tạo file `.env`:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+MONGO_URI=mongodb://localhost:27017/blog_database
+PORT=5000
+NODE_ENV=development
 ```
+
+Seed database với 50 blogs:
+```bash
+node scripts/seed.js
+```
+
+Start backend:
+```bash
+npm start
+# hoặc
+npm run dev  # với nodemon
+```
+
 Backend chạy tại: http://localhost:5000
 
-### Terminal 2 - Frontend:
+### 3. Setup Frontend
 ```bash
-cd RAG-Langchain/frontend
+cd frontend
+npm install
 npm start
 ```
+
 Frontend chạy tại: http://localhost:3000
 
-## 📖 Hướng dẫn sử dụng
+## 📁 Cấu trúc Project
 
-### 1. Tạo dữ liệu mẫu
-- Click nút "Tạo dữ liệu mẫu" để tạo 5 blogs mẫu
-- Dữ liệu bao gồm: công nghệ, ẩm thực, du lịch, lập trình, sức khỏe
+```
+RAG-Langchain/
+├── backend/
+│   ├── models/
+│   │   ├── User.js          # User model
+│   │   └── Blog.js          # Blog model
+│   ├── routes/
+│   │   ├── userRoutes.js    # User API routes
+│   │   ├── blogRoutes.js    # Blog API routes
+│   │   └── aiRoutes.js      # AI API routes
+│   ├── scripts/
+│   │   └── seed.js          # Seed 50 blogs
+│   ├── server.js            # Express server
+│   ├── package.json
+│   └── .env
+├── frontend/
+│   ├── src/
+│   │   ├── App.js           # Main component
+│   │   ├── BlogDetail.js    # Blog detail page
+│   │   ├── ChatBot.js       # AI Chatbot
+│   │   ├── App.css
+│   │   ├── BlogDetail.css
+│   │   └── ChatBot.css
+│   ├── public/
+│   └── package.json
+└── README.md
+```
 
-### 2. Tìm kiếm blogs
-- Chọn mode "🔍 Tìm kiếm"
-- Nhập câu hỏi: "Có blog nào về lập trình không?"
-- AI sẽ tìm và trả lời dựa trên nội dung blogs
-
-### 3. Tóm tắt blog
-- Chọn một blog từ danh sách
-- Chọn mode "📝 Tóm tắt"
-- Nhấn Enter để nhận tóm tắt
-
-### 4. Phân tích blog
-- Chọn một blog
-- Chọn mode "📊 Phân tích"
-- Nhận phân tích về sentiment, chủ đề, từ khóa
-
-### 5. Gợi ý blogs tương tự
-- Chọn một blog
-- Chọn mode "💡 Gợi ý"
-- Nhận danh sách blogs liên quan
-
-### 6. Tạo nội dung mới
-- Chọn mode "✨ Tạo nội dung"
-- Nhập chủ đề: "Cách học React hiệu quả"
-- AI sẽ tạo nội dung blog hoàn chỉnh
-
-### 7. Tạo blog mới
-- Điền form "Tạo Blog Mới" ở sidebar
-- Nhập: tiêu đề, nội dung, tác giả, danh mục
-- Click "Tạo Blog"
-
-## 🔧 API Endpoints
+## 🔌 API Endpoints
 
 ### Blogs
-- `GET /api/blogs` - Lấy danh sách blogs
+- `GET /api/blogs` - Lấy tất cả blogs
+- `GET /api/blogs/:id` - Lấy blog theo ID
 - `POST /api/blogs` - Tạo blog mới
-- `POST /api/seed` - Tạo dữ liệu mẫu
-
-### Chat/RAG
-- `POST /api/chat/search` - Tìm kiếm với RAG
-- `POST /api/chat/summarize` - Tóm tắt blog
-- `POST /api/chat/analyze` - Phân tích blog
-- `POST /api/chat/recommend` - Gợi ý blogs tương tự
-- `POST /api/chat/generate` - Tạo nội dung mới
+- `PUT /api/blogs/:id` - Cập nhật blog
+- `DELETE /api/blogs/:id` - Xóa blog
+- `GET /api/blogs/:id/related` - Lấy blogs liên quan
+- `POST /api/blogs/:id/like` - Like blog
 
 ### Users
+- `GET /api/users` - Lấy tất cả users
+- `GET /api/users/:id` - Lấy user theo ID
 - `POST /api/users` - Tạo user mới
+- `PUT /api/users/:id` - Cập nhật user
+- `GET /api/users/:id/blogs` - Lấy blogs của user
 
-## 🎯 Kiến trúc RAG
+### AI
+- `POST /api/ai/smart-search` - Tìm kiếm thông minh
+- `POST /api/ai/summarize` - Tóm tắt blog
+- `POST /api/ai/analyze` - Phân tích blog
+- `POST /api/ai/generate` - Tạo nội dung
+- `POST /api/ai/chat` - Chat với AI
 
-```
-User Query → Embedding → Vector Search (FAISS)
-                ↓
-        Retrieved Documents
-                ↓
-        LLM (Groq) + Context → Response
-```
+## 💾 Database Schema
 
-## 📝 Cấu trúc Database
-
-### Collection: blogs
+### User Model
 ```javascript
 {
-  _id: ObjectId,
+  username: String (unique),
+  email: String (unique),
+  password: String,
+  fullName: String,
+  avatar: String,
+  bio: String,
+  role: String (user/admin),
+  blogs: [Blog],
+  favoriteBlogs: [Blog],
+  timestamps: true
+}
+```
+
+### Blog Model
+```javascript
+{
   title: String,
   content: String,
-  author: String,
+  excerpt: String,
+  author: User (ref),
   category: String,
-  created_at: Date,
-  views: Number
+  tags: [String],
+  coverImage: String,
+  views: Number,
+  likes: Number,
+  published: Boolean,
+  featured: Boolean,
+  readTime: Number,
+  timestamps: true
 }
 ```
 
-### Collection: users
-```javascript
-{
-  _id: ObjectId,
-  username: String,
-  email: String,
-  created_at: Date,
-  favorite_blogs: Array
-}
-```
+## 🎨 Features Demo
 
-## 🔍 Troubleshooting
+### 1. Trang chủ Blog
+- Grid layout hiển thị blogs
+- Filter theo category
+- Click vào blog để xem chi tiết
 
-### Lỗi kết nối MongoDB
+### 2. Blog Detail
+- Hiển thị toàn bộ nội dung
+- Author information
+- Views, likes, read time
+- AI features: Summarize, Analyze
+- Related blogs
+
+### 3. AI Chatbot
+- Floating button ở góc dưới phải
+- 3 modes: Smart Search, Search, Generate
+- Chat interface với typing indicator
+- Click vào blog results để xem detail
+
+## 🚀 Deployment
+
+### Backend
 ```bash
-# Kiểm tra MongoDB đang chạy
-mongod --version
+# Build for production
+npm start
 
-# Khởi động MongoDB
-mongod --dbpath C:\data\db
+# Hoặc dùng PM2
+pm2 start server.js --name "blog-backend"
 ```
 
-### Lỗi Groq API
-- Kiểm tra API key trong file .env
-- Đảm bảo có kết nối internet
-- Verify key tại: https://console.groq.com
-
-### Lỗi dependencies
+### Frontend
 ```bash
-# Backend
-pip install --upgrade -r requirements.txt
+# Build for production
+npm run build
 
-# Frontend
-npm install --force
+# Serve với serve
+npx serve -s build
 ```
 
-## 🚀 Mở rộng
+## 📝 Environment Variables
 
-### Thêm tính năng mới:
-1. **Multi-language support**: Thêm hỗ trợ nhiều ngôn ngữ
-2. **User authentication**: Đăng nhập/đăng ký
-3. **Favorite blogs**: Lưu blogs yêu thích
-4. **Comments**: Hệ thống bình luận
-5. **Advanced search**: Lọc theo category, author, date
-6. **Export**: Xuất blogs ra PDF/Word
+### Backend (.env)
+```env
+GROQ_API_KEY=your_groq_api_key
+MONGO_URI=mongodb://localhost:27017/blog_database
+PORT=5000
+NODE_ENV=production
+```
 
-### Tối ưu hóa:
-- Cache vector embeddings
-- Pagination cho danh sách blogs
-- Rate limiting cho API
-- Deploy lên cloud (Vercel + MongoDB Atlas)
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-MIT License - Tự do sử dụng và chỉnh sửa
+This project is licensed under the MIT License.
 
 ## 👨‍💻 Author
 
-Được xây dựng với ❤️ sử dụng LangChain và Groq AI
+**Thai2602**
+- GitHub: [@thai2602](https://github.com/thai2602)
+
+## 🙏 Acknowledgments
+
+- Groq AI for the API
+- MongoDB for the database
+- React team for the framework
+- Express team for the backend framework
+
+---
+
+Made with ❤️ by Thai2602
