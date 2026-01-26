@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import './ChatBot.css';
 
 const API_URL = 'http://localhost:5000/api';
 
-function ChatBot({ isOpen, onToggle }) {
+function ChatBot({ isOpen, onToggle, onBlogSelect, onSearchResults }) {
   const [chatMode, setChatMode] = useState('smart-search');
   const [query, setQuery] = useState('');
   const [messages, setMessages] = useState([
     {
       type: 'bot',
-      text: 'Xin chào! 👋 Tôi là AI Assistant. Tôi có thể giúp bạn:\n\n🎯 Tìm kiếm blogs theo chủ đề\n📝 Tóm tắt nội dung\n📊 Phân tích bài viết\n✨ Tạo nội dung mới\n\nBạn cần tôi giúp gì?'
+      text: 'Xin chào! 👋 Tôi là AI Assistant. Tôi có thể giúp bạn:\n\n🎯 Tìm kiếm blogs theo chủ đề\n📝 Tóm tắt nội dung\n📊 Phân tích bài viết\n✨ Tạo nội dung mới\n📝 Tạo blog mới trực tiếp\n\nBạn cần tôi giúp gì?'
     }
   ]);
   const [loading, setLoading] = useState(false);
@@ -32,6 +32,10 @@ function ChatBot({ isOpen, onToggle }) {
           res = await axios.post(`${API_URL}/ai/smart-search`, { query });
           botResponse = res.data.answer;
           foundBlogs = res.data.blogs || [];
+          // Gửi kết quả tìm kiếm lên App.js để lọc giao diện
+          if (foundBlogs.length > 0 && onSearchResults) {
+            onSearchResults(foundBlogs);
+          }
           break;
 
         case 'search':
@@ -45,6 +49,21 @@ function ChatBot({ isOpen, onToggle }) {
             style: 'chuyên nghiệp'
           });
           botResponse = res.data.generated_content;
+          break;
+
+        case 'create-blog':
+          res = await axios.post(`${API_URL}/tools/create-blog-with-ai`, { 
+            userRequest: query
+          });
+          botResponse = res.data.message;
+          if (res.data.toolResults && res.data.toolResults.length > 0) {
+            const result = res.data.toolResults[0].result;
+            if (result.success) {
+              botResponse += `\n\n✅ ${result.message}`;
+            } else if (result.error) {
+              botResponse += `\n\n❌ ${result.error}`;
+            }
+          }
           break;
 
         default:
@@ -70,8 +89,9 @@ function ChatBot({ isOpen, onToggle }) {
   };
 
   const handleBlogClick = (blogId) => {
-    window.location.href = `#/blog/${blogId}`;
-    onToggle();
+    if (onBlogSelect) {
+      onBlogSelect(blogId);
+    }
   };
 
   return (
@@ -120,6 +140,13 @@ function ChatBot({ isOpen, onToggle }) {
           >
             ✨
           </button>
+          <button 
+            className={`mode-btn ${chatMode === 'create-blog' ? 'active' : ''}`}
+            onClick={() => setChatMode('create-blog')}
+            title="Tạo blog mới"
+          >
+            📝
+          </button>
         </div>
 
         <div className="chatbot-messages">
@@ -166,11 +193,13 @@ function ChatBot({ isOpen, onToggle }) {
             placeholder={
               chatMode === 'smart-search' ? 'Hỏi về bất kỳ chủ đề nào...' :
               chatMode === 'search' ? 'Tìm kiếm blogs...' :
-              'Nhập chủ đề để tạo nội dung...'
+              chatMode === 'generate' ? 'Nhập chủ đề để tạo nội dung...' :
+              chatMode === 'create-blog' ? 'Mô tả blog bạn muốn tạo...' :
+              'Nhập tin nhắn...'
             }
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === 'Enter' && !loading) {
                 handleSend();
               }

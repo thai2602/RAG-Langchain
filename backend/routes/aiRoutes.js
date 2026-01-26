@@ -4,29 +4,38 @@ import Blog from '../models/Blog.js';
 
 const router = express.Router();
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 // Helper function to call Groq API
 async function callGroqAPI(prompt) {
   try {
+    const GROQ_API_KEY = process.env.GROQ_API_KEY;
+    
+    if (!GROQ_API_KEY) {
+      console.error('GROQ_API_KEY:', process.env.GROQ_API_KEY);
+      throw new Error('GROQ_API_KEY not configured in environment');
+    }
+    
     const response = await axios.post(
       GROQ_URL,
       {
         model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7
+        temperature: 0.7,
+        max_tokens: 1024
       },
       {
         headers: {
           'Authorization': `Bearer ${GROQ_API_KEY}`,
           'Content-Type': 'application/json'
-        }
+        },
+        timeout: 30000
       }
     );
     return response.data.choices[0].message.content;
   } catch (error) {
-    throw new Error('AI API Error: ' + error.message);
+    console.error('Groq API Error:', error.response?.data || error.message);
+    throw new Error('AI API Error: ' + (error.response?.data?.error?.message || error.message));
   }
 }
 

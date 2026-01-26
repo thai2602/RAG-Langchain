@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import toolRoutes from './routes/toolRoutes.js';
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/users', userRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/tools', toolRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

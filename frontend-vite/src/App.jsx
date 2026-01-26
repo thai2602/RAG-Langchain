@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import BlogDetail from './BlogDetail';
-import ChatBot from './ChatBot';
+import BlogDetail from './BlogDetail.jsx';
+import ChatBot from './ChatBot.jsx';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -12,6 +12,7 @@ function App() {
   const [detailBlogId, setDetailBlogId] = useState(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchResults, setSearchResults] = useState(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -46,16 +47,32 @@ function App() {
     fetchBlogs();
   };
 
+  const handleSearchFromChat = (results) => {
+    setSearchResults(results);
+    setIsChatOpen(false);
+  };
+
+  const clearSearch = () => {
+    setSearchResults(null);
+  };
+
   const categories = ['all', ...new Set(blogs.map(b => b.category))];
-  const filteredBlogs = selectedCategory === 'all' 
-    ? blogs 
-    : blogs.filter(b => b.category === selectedCategory);
+  const filteredBlogs = searchResults !== null 
+    ? searchResults
+    : selectedCategory === 'all' 
+      ? blogs 
+      : blogs.filter(b => b.category === selectedCategory);
 
   if (viewMode === 'detail' && detailBlogId) {
     return (
       <>
         <BlogDetail blogId={detailBlogId} onBack={closeBlogDetail} onNavigate={openBlogDetail} />
-        <ChatBot isOpen={isChatOpen} onToggle={() => setIsChatOpen(!isChatOpen)} />
+        <ChatBot 
+          isOpen={isChatOpen} 
+          onToggle={() => setIsChatOpen(!isChatOpen)}
+          onBlogSelect={openBlogDetail}
+          onSearchResults={handleSearchFromChat}
+        />
       </>
     );
   }
@@ -76,12 +93,20 @@ function App() {
               <button
                 key={cat}
                 className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  clearSearch();
+                }}
               >
                 {cat === 'all' ? '🏠 Tất cả' : `📁 ${cat}`}
               </button>
             ))}
           </div>
+          {searchResults && (
+            <button onClick={clearSearch} className="seed-btn" style={{ background: '#e74c3c' }}>
+              ✕ Xóa tìm kiếm
+            </button>
+          )}
           <button onClick={handleSeedData} className="seed-btn">
             ➕ Tạo dữ liệu mẫu
           </button>
@@ -89,6 +114,12 @@ function App() {
       </nav>
 
       <main className="blog-main">
+        {searchResults && (
+          <div style={{ textAlign: 'center', marginBottom: '20px', color: '#667eea', fontSize: '18px', fontWeight: 'bold' }}>
+            🔍 Kết quả tìm kiếm: {filteredBlogs.length} blogs
+          </div>
+        )}
+        
         <div className="blog-grid">
           {filteredBlogs.map(blog => (
             <article key={blog._id} className="blog-card" onClick={() => openBlogDetail(blog._id)}>
@@ -123,7 +154,12 @@ function App() {
         <p>© 2024 My Blog - Powered by AI RAG Chatbot</p>
       </footer>
 
-      <ChatBot isOpen={isChatOpen} onToggle={() => setIsChatOpen(!isChatOpen)} />
+      <ChatBot 
+        isOpen={isChatOpen} 
+        onToggle={() => setIsChatOpen(!isChatOpen)}
+        onBlogSelect={openBlogDetail}
+        onSearchResults={handleSearchFromChat}
+      />
     </div>
   );
 }

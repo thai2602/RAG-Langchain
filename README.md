@@ -4,13 +4,15 @@ Trang web blog hiện đại với AI Chatbot tích hợp, sử dụng RAG (Retr
 
 ## 🎯 Tính năng
 
-### Frontend (React)
+### Frontend (Vite + React)
 - ✅ Giao diện blog hiện đại với grid layout
 - ✅ Filter blogs theo category
 - ✅ Blog detail page với đầy đủ thông tin
-- ✅ AI Chatbot floating button
+- ✅ AI Chatbot floating button với 4 modes
+- ✅ Smart search với filtering trên UI
 - ✅ Responsive design cho mọi thiết bị
 - ✅ Smooth animations và transitions
+- ✅ Fast HMR với Vite + SWC
 
 ### Backend (Node.js + Express)
 - ✅ RESTful API với Express
@@ -20,20 +22,24 @@ Trang web blog hiện đại với AI Chatbot tích hợp, sử dụng RAG (Retr
 - ✅ Smart search với RAG
 - ✅ Blog summarization và analysis
 - ✅ Content generation
+- ✅ AI Tools cho blog creation
 
 ### AI Features
-- 🎯 **Smart Search**: Tìm kiếm thông minh với AI
+- 🎯 **Smart Search**: Tìm kiếm thông minh với AI và lọc kết quả trên UI
 - 📝 **Summarize**: Tóm tắt nội dung blog
 - 📊 **Analyze**: Phân tích sentiment và chủ đề
 - ✨ **Generate**: Tạo nội dung blog mới
+- 📝 **Create Blog**: Tạo blog mới trực tiếp với AI
 - 💡 **Recommendations**: Gợi ý blogs liên quan
 
 ## 🏗️ Tech Stack
 
 ### Frontend
-- React 18
-- Axios
-- CSS3 với animations
+- **Vite**: Modern build tool với HMR
+- **React 19**: Latest React với hooks
+- **SWC**: Fast compilation
+- **Axios**: HTTP client
+- **CSS3**: Modern styling với animations
 
 ### Backend
 - Node.js
@@ -83,14 +89,16 @@ npm run dev  # với nodemon
 
 Backend chạy tại: http://localhost:5000
 
-### 3. Setup Frontend
+### 3. Setup Frontend (Vite)
 ```bash
-cd frontend
+cd frontend-vite
 npm install
+npm run dev
+# hoặc
 npm start
 ```
 
-Frontend chạy tại: http://localhost:3000
+Frontend chạy tại: http://localhost:5173
 
 ## 📁 Cấu trúc Project
 
@@ -103,21 +111,27 @@ RAG-Langchain/
 │   ├── routes/
 │   │   ├── userRoutes.js    # User API routes
 │   │   ├── blogRoutes.js    # Blog API routes
-│   │   └── aiRoutes.js      # AI API routes
+│   │   ├── aiRoutes.js      # AI API routes
+│   │   └── toolRoutes.js    # AI Tools routes
+│   ├── tools/
+│   │   └── blogTools.js     # AI Tools for blog creation
 │   ├── scripts/
 │   │   └── seed.js          # Seed 50 blogs
 │   ├── server.js            # Express server
 │   ├── package.json
 │   └── .env
-├── frontend/
+├── frontend/ (Legacy CRA)
+├── frontend-vite/ (New Vite)
 │   ├── src/
-│   │   ├── App.js           # Main component
-│   │   ├── BlogDetail.js    # Blog detail page
-│   │   ├── ChatBot.js       # AI Chatbot
+│   │   ├── App.jsx          # Main component
+│   │   ├── BlogDetail.jsx   # Blog detail page
+│   │   ├── ChatBot.jsx      # AI Chatbot
 │   │   ├── App.css
 │   │   ├── BlogDetail.css
-│   │   └── ChatBot.css
-│   ├── public/
+│   │   ├── ChatBot.css
+│   │   └── main.jsx         # Entry point
+│   ├── index.html
+│   ├── vite.config.js
 │   └── package.json
 └── README.md
 ```
@@ -146,6 +160,9 @@ RAG-Langchain/
 - `POST /api/ai/analyze` - Phân tích blog
 - `POST /api/ai/generate` - Tạo nội dung
 - `POST /api/ai/chat` - Chat với AI
+
+### AI Tools
+- `POST /api/tools/create-blog-with-ai` - Tạo blog với AI tools
 
 ## 💾 Database Schema
 
@@ -189,6 +206,7 @@ RAG-Langchain/
 ### 1. Trang chủ Blog
 - Grid layout hiển thị blogs
 - Filter theo category
+- Smart search filtering trên UI
 - Click vào blog để xem chi tiết
 
 ### 2. Blog Detail
@@ -196,13 +214,24 @@ RAG-Langchain/
 - Author information
 - Views, likes, read time
 - AI features: Summarize, Analyze
-- Related blogs
+- Related blogs với navigation
 
-### 3. AI Chatbot
+### 3. AI Chatbot (4 Modes)
+- **🎯 Smart Search**: Tìm kiếm và lọc kết quả trên giao diện
+- **🔍 Search**: Tìm kiếm cơ bản
+- **✨ Generate**: Tạo nội dung mới
+- **📝 Create Blog**: Tạo blog mới trực tiếp với AI tools
 - Floating button ở góc dưới phải
-- 3 modes: Smart Search, Search, Generate
 - Chat interface với typing indicator
 - Click vào blog results để xem detail
+
+## 🚀 Performance (Vite)
+
+- **Fast HMR**: Hot Module Replacement với Vite
+- **SWC Compilation**: Faster than Babel
+- **Tree Shaking**: Optimized bundles
+- **Code Splitting**: Lazy loading
+- **Dev Server**: Lightning fast development
 
 ## 🚀 Deployment
 
@@ -215,13 +244,16 @@ npm start
 pm2 start server.js --name "blog-backend"
 ```
 
-### Frontend
+### Frontend (Vite)
 ```bash
 # Build for production
 npm run build
 
+# Preview production build
+npm run preview
+
 # Serve với serve
-npx serve -s build
+npx serve -s dist
 ```
 
 ## 📝 Environment Variables
@@ -233,6 +265,15 @@ MONGO_URI=mongodb://localhost:27017/blog_database
 PORT=5000
 NODE_ENV=production
 ```
+
+## 🔄 Migration từ CRA sang Vite
+
+Đã migrate thành công từ Create React App sang Vite:
+- ✅ Faster development server
+- ✅ Better build performance
+- ✅ Modern tooling với SWC
+- ✅ Tất cả features hoạt động bình thường
+- ✅ Responsive design được giữ nguyên
 
 ## 🤝 Contributing
 
@@ -256,6 +297,7 @@ This project is licensed under the MIT License.
 - Groq AI for the API
 - MongoDB for the database
 - React team for the framework
+- Vite team for the amazing build tool
 - Express team for the backend framework
 
 ---
